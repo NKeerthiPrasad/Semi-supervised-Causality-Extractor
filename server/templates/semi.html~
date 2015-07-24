@@ -1,0 +1,43 @@
+<html>
+    <body>
+        {% for a in every %}
+            <form class="relationForm">
+            <fieldset>
+                <legend>Semi-supervised Learning:</legend>
+                Entity1:<br>
+                <input type="text" name="entity1" value="{{a['entity1']}}" style="width: 300px">
+                <br>
+                Relation:<br>
+                <input type="text" name="relation" value="{{a['relation']}}" style="width: 600px">
+                <br>
+                Entity2:<br>
+                <input type="text" name="entity2" value="{{a['entity2']}}" style="width: 900px">
+                <br><br>
+                <input class="eRSubmit" type="submit" value="Submit">
+            </fieldset>
+
+
+        </form>
+        {% endfor %}
+
+    </body>
+    <script src="static/js/jquery-2.1.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.eRSubmit').click(function(e){
+                e.preventDefault();
+                var that = $(this);
+                var par = $(this).parent();
+                var entity1 = par.find('[name="entity1"]').val();
+                var relation = par.find('[name="relation"]').val();
+                var entity2 = par.find('[name="entity2"]').val();
+                var url = '/save_er';
+                var params = JSON.stringify({'e1':entity1, 'e2':entity2, 'rel':relation});
+                $.post(url,params).then(function(res){
+                    var response = JSON.parse(res);
+                    console.log(response);
+                });
+            });
+        });
+    </script>
+</html>
